@@ -6,10 +6,7 @@ import java.util.HashMap;
 
 public class UserMapper {
 
-    public UserMapper(){
-
-    }
-    public User map(HashMap<String, ?> userToMap){
+    public User map(HashMap<String, ?> userToMap) {
         AddressMapper addressMapper = new AddressMapper();
         CompanyMapper companyMapper = new CompanyMapper();
         User user = new User();

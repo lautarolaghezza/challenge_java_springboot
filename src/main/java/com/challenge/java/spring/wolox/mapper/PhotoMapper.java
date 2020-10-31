@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class PhotoMapper {
 
-    public Photo map(HashMap photoToMap){
+    public Photo map(HashMap photoToMap) {
         Photo photo = new Photo();
         photo.setAlbumId((Integer) photoToMap.get("albumId"));
         photo.setId((Integer) photoToMap.get("id"));

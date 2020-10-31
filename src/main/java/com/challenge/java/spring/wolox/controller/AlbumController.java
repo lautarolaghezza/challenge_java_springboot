@@ -1,13 +1,9 @@
 package com.challenge.java.spring.wolox.controller;
 
 import com.challenge.java.spring.wolox.entity.Album;
-import com.challenge.java.spring.wolox.entity.Photo;
-import com.challenge.java.spring.wolox.mapper.AlbumMapper;
-import com.challenge.java.spring.wolox.mapper.PhotoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +13,17 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 @RequestMapping("/api")
-public class AlbumController extends BaseController{
+public class AlbumController extends BaseController {
+
+
+    @GetMapping(value = "/albums/{albumId}/register/user/{userId}/{permission}")
+    public ResponseEntity<?> registerUserWithPermissionInalbum(@PathVariable Integer albumId, @PathVariable Integer userId, @PathVariable String permission) {
+        if (sharedAlbumService.registerUserPermissionInAlbum(userId, albumId, permission)) {
+            return new ResponseEntity<>(getForId(albumId, "albums"), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping(value = "/albums/{id}")
     public ResponseEntity<Album> getAlbum(@PathVariable Integer id) {

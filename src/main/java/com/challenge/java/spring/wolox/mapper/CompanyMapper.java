@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 public class CompanyMapper {
 
-
     public Company map(HashMap<String, String> companyToMap) {
         Company company = new Company();
         company.setName(companyToMap.get("name"));

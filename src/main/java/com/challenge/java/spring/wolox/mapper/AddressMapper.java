@@ -5,7 +5,7 @@ import com.challenge.java.spring.wolox.entity.Address;
 import java.util.HashMap;
 
 public class AddressMapper {
-    public Address map(HashMap<String,?> addressToMap) {
+    public Address map(HashMap<String, ?> addressToMap) {
         GeoMapper geoMapper = new GeoMapper();
         Address address = new Address();
         address.setStreet((String) addressToMap.get("street"));

@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class AlbumMapper {
 
-    public Album map(HashMap albumToMap){
+    public Album map(HashMap albumToMap) {
         Album album = new Album();
         album.setUserId((Integer) albumToMap.get("userId"));
         album.setId((Integer) albumToMap.get("id"));
