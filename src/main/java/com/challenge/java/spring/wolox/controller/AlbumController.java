@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class AlbumController extends BaseController {
 
 
-    @GetMapping(value = "/albums/{albumId}/register/user/{userId}/{permission}")
+    @PostMapping(value = "/albums/{albumId}/register/user/{userId}/{permission}")
     public ResponseEntity<?> registerUserWithPermissionInalbum(@PathVariable Integer albumId, @PathVariable Integer userId, @PathVariable String permission) {
         if (sharedAlbumService.registerUserPermissionInAlbum(userId, albumId, permission)) {
             return new ResponseEntity<>(getForId(albumId, "albums"), HttpStatus.CREATED);

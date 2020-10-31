@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController extends BaseController {
 
-    @GetMapping(value = "/users/{userId}/albums/{albumId}/{permission}")
+    @PutMapping(value = "/users/{userId}/albums/{albumId}/{permission}")
     public ResponseEntity<User> setUserPermissionInAlbum(@PathVariable Integer userId, @PathVariable Integer albumId, @PathVariable String permission) {
         if (sharedAlbumService.changePermissionForUserInAlbum(userId, albumId, permission)) {
             return (ResponseEntity<User>) getForId(userId, "users");

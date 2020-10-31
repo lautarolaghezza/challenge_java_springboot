@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class CommentController extends BaseController {
 
-    @RequestMapping(value = "/comments/name/{name}")
+    @GetMapping(value = "/comments/name/{name}")
     public ResponseEntity<List<Comment>> getComentByName(@PathVariable String name) {
         List<Comment> comments = (List<Comment>) getAll("comments").getBody();
         if (comments == null) {
@@ -24,7 +24,7 @@ public class CommentController extends BaseController {
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/comments/user/{id}")
+    @GetMapping(value = "/comments/user/{id}")
     public ResponseEntity<List<Comment>> getcommentByUserId(@PathVariable Integer id) {
         List<Comment> comments = (List<Comment>) getAll("comments").getBody();
         User user = (User) getForId(id, "users").getBody();
