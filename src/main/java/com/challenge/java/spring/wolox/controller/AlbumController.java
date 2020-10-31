@@ -17,39 +17,17 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 @RequestMapping("/api")
-public class AlbumController {
-
-    RestTemplate restTemplate = new RestTemplate();
-    final String uri = "https://jsonplaceholder.typicode.com/";
-    AlbumMapper albumMapper = new AlbumMapper();
+public class AlbumController extends BaseController{
 
     @GetMapping(value = "/albums/{id}")
     public ResponseEntity<Album> getAlbum(@PathVariable Integer id) {
-        HashMap result;
-        try {
-            result = restTemplate.getForObject(uri + "albums/" + id, HashMap.class);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Album album = albumMapper.map(result);
-        return new ResponseEntity<>(album, HttpStatus.OK);
+        return (ResponseEntity<Album>) getForId(id, "albums");
     }
 
 
     @GetMapping(value = "/albums")
     public ResponseEntity<List<Album>> getAlbums() {
-        HashMap[] result;
-        List<Album> albums = new ArrayList<Album>();
-        try {
-            result = restTemplate.getForObject(uri + "albums", HashMap[].class);
-            for (Object res : result) {
-                albums.add(albumMapper.map((HashMap) res));
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(albums, HttpStatus.OK);
+        return (ResponseEntity<List<Album>>) getAll("albums");
     }
 
 

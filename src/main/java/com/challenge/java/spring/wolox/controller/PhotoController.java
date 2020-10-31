@@ -2,6 +2,7 @@ package com.challenge.java.spring.wolox.controller;
 
 import com.challenge.java.spring.wolox.entity.Album;
 import com.challenge.java.spring.wolox.entity.Photo;
+import com.challenge.java.spring.wolox.entity.User;
 import com.challenge.java.spring.wolox.mapper.PhotoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,54 +18,23 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 @RequestMapping("/api")
-public class PhotoController {
+public class PhotoController extends BaseController{
 
-    RestTemplate restTemplate = new RestTemplate();
-    final String uri = "https://jsonplaceholder.typicode.com/";
-    PhotoMapper photoMapper = new PhotoMapper();
 
     @GetMapping(value = "/photos/{id}")
     public ResponseEntity<Photo> getPhoto(@PathVariable Integer id) {
-        HashMap result;
-        try {
-            result = restTemplate.getForObject(uri + "photos/" + id, HashMap.class);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Photo photo = photoMapper.map(result);
-        return new ResponseEntity<>(photo, HttpStatus.OK);
+        return (ResponseEntity<Photo>) getForId(id, "photos");
     }
 
 
     @GetMapping(value = "/photos")
     public ResponseEntity<List<Photo>> getPhotos() {
-        HashMap[] result;
-        List<Photo> photos = new ArrayList<Photo>();
-        try {
-            result = restTemplate.getForObject(uri + "photos", HashMap[].class);
-            for (Object res : result) {
-                photos.add(photoMapper.map((HashMap) res));
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(photos, HttpStatus.OK);
+        return (ResponseEntity<List<Photo>>) getAll("photos");
     }
 
     @GetMapping(value = "/photos/user/{id}")
     public ResponseEntity<List<Photo>> getAlbumsUser(@PathVariable Integer id) {
-        HashMap[] result;
-        List<Photo> photos = new ArrayList<Photo>();
-        try {
-            result = restTemplate.getForObject(uri + "photos", HashMap[].class);
-            for (Object res : result) {
-                photos.add(photoMapper.map((HashMap) res));
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        List<Photo> photos = (List<Photo>) getAll("photos").getBody();
         AlbumController albumController = new AlbumController();
         List<Integer> ids = albumsIds(Objects.requireNonNull(albumController.getAlbumsUser(id).getBody()));
         photos = photos.stream().filter(photo -> ids.contains(photo.getAlbumId())).collect(Collectors.toList());
